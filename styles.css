@@ -1,0 +1,134 @@
+/* Base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Playfair Display', serif;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+  
+  .container {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: linear-gradient(135deg, #2e1065, #4c1d95, #7e22ce, #2e1065);
+    background-size: 400% 400%;
+    animation: gradientBackground 15s ease infinite;
+  }
+  
+  /* Animated gradient background */
+  @keyframes gradientBackground {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  
+  /* Content styles */
+  .content {
+    position: relative;
+    z-index: 20;
+    text-align: center;
+    padding: 1rem;
+    max-width: 90%;
+  }
+  
+  #title {
+    font-size: clamp(2rem, 8vw, 5rem);
+    font-weight: 900;
+    line-height: 1.2;
+    margin-bottom: 2rem;
+    background: linear-gradient(45deg, #ff3a7c, #7928ca, #4361ee, #ff3a7c);
+    background-size: 300% 300%;
+    background-position: 0% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: gradientText 5s ease infinite;
+  }
+  
+  @keyframes gradientText {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  
+  .date {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
+    color: rgba(255, 255, 255, 0.9);
+    font-style: italic;
+    margin-top: 2rem;
+  }
+  
+  /* Particles background */
+  .particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+  }
+  
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.7;
+    animation: float 3s infinite ease-in-out;
+  }
+  
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0) translateX(0);
+    }
+    50% {
+      transform: translateY(-20px) translateX(10px);
+    }
+  }
+  
+  /* Falling flowers and hearts */
+  #flowers-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 15;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  
+  .flower {
+    position: absolute;
+    font-size: 24px;
+    animation: fall linear forwards;
+  }
+  
+  @keyframes fall {
+    0% {
+      transform: translateY(-50px) rotate(0deg);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(calc(100vh + 50px)) rotate(360deg);
+      opacity: 0.7;
+    }
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .content {
+      padding: 1rem;
+    }
+  }
