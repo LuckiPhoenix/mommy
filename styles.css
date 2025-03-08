@@ -45,12 +45,15 @@
     font-weight: 900;
     line-height: 1.2;
     margin-bottom: 2rem;
+  }
+  
+  /* Gradient text effect applied to spans */
+  .animated-text {
     color: #ff3a7c; /* Fallback color */
   }
   
-  /* Only apply gradient text if supported */
   @supports (background-clip: text) or (-webkit-background-clip: text) {
-    #title {
+    .animated-text {
       background: linear-gradient(45deg, #ff3a7c, #7928ca, #4361ee, #ff3a7c);
       background-size: 300% 300%;
       background-position: 0% 100%;
@@ -140,8 +143,7 @@
     }
   }
   
-  /* Make sure spans in the title are visible by default */
+  /* Ensure spans in the title are visible by default */
   #title span {
     display: inline-block;
-    opacity: 1 !important; /* Override any JS that might set opacity to 0 */
   }
