@@ -5,8 +5,16 @@ document.addEventListener('DOMContentLoaded', function() {
     // Create falling flowers and hearts
     createFallingElements();
     
-    // Animate the title text
-    animateTitle();
+    // Animate the title text - but make sure it's visible first
+    const titleElement = document.getElementById('title');
+    titleElement.style.opacity = '1'; // Ensure title is visible
+    
+    // Only run animation if GSAP is properly loaded
+    if (typeof gsap !== 'undefined') {
+      animateTitle();
+    } else {
+      console.warn("GSAP is not loaded. Title animation will not run.");
+    }
   });
   
   // Create particles for the background
@@ -84,33 +92,49 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Animate the title text
   function animateTitle() {
-    const titleElement = document.getElementById('title');
-    const text = titleElement.textContent;
-    
-    // Clear the title
-    titleElement.textContent = '';
-    
-    // Create spans for each character
-    const chars = text.split('');
-    chars.forEach(char => {
-      const span = document.createElement('span');
-      span.textContent = char === ' ' ? '\u00A0' : char; // Use non-breaking space for spaces
-      span.style.display = 'inline-block';
-      span.style.opacity = '0';
-      span.style.transform = 'translateY(-50px) scale(0) rotate(-180deg)';
-      titleElement.appendChild(span);
-    });
-    
-    // Animate each character with GSAP
-    gsap.registerPlugin(gsap.utils, Elastic);
-    const Elastic = gsap.utils.getEase("elastic(1,0.3)");
-    gsap.to(titleElement.children, {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      rotation: 0,
-      stagger: 0.1,
-      duration: 1.5,
-      ease: Elastic
-    });
+    try {
+      const titleElement = document.getElementById('title');
+      const originalText = titleElement.textContent;
+      
+      // Store original text for fallback
+      titleElement.setAttribute('data-original-text', originalText);
+      
+      // Clear the title
+      titleElement.innerHTML = '';
+      
+      // Create spans for each character
+      const chars = originalText.split('');
+      chars.forEach(char => {
+        const span = document.createElement('span');
+        span.textContent = char === ' ' ? '\u00A0' : char; // Use non-breaking space for spaces
+        span.style.display = 'inline-block';
+        // Don't set opacity to 0 initially to ensure text is visible
+        span.style.opacity = '1';
+        titleElement.appendChild(span);
+      });
+      
+      // Simple animation that won't hide the text
+      gsap.from(titleElement.children, {
+        y: -30,
+        scale: 0.5,
+        rotation: -10,
+        stagger: 0.05,
+        duration: 1,
+        ease: "back.out(1.7)",
+        onStart: function() {
+          // Make sure all spans are visible
+          Array.from(titleElement.children).forEach(span => {
+            span.style.opacity = '1';
+          });
+        }
+      });
+    } catch (error) {
+      console.error("Animation error:", error);
+      // Restore original text if animation fails
+      const titleElement = document.getElementById('title');
+      const originalText = titleElement.getAttribute('data-original-text');
+      if (originalText) {
+        titleElement.textContent = originalText;
+      }
+    }
   }
