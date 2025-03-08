@@ -7,12 +7,12 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Animate the title text
     const titleElement = document.getElementById('title');
-    titleElement.style.opacity = '1'; // Ensure title is visible initially
-    
     if (typeof gsap !== 'undefined') {
       animateTitle();
     } else {
       console.warn("GSAP is not loaded. Title animation will not run.");
+      // Apply gradient to static text as fallback
+      titleElement.classList.add('animated-text');
     }
   });
   
@@ -127,6 +127,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const originalText = titleElement.getAttribute('data-original-text');
       if (originalText) {
         titleElement.textContent = originalText;
+        titleElement.classList.add('animated-text');
       }
     }
   }
